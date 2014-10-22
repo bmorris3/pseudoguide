@@ -8,7 +8,9 @@ Created on Wed Oct 22 11:36:49 2014
 from glob import glob
 import pyfits 
 import numpy as np
+import pseudoguide as pg
 
+estimatedPSF = 1.5
 platescale = 0.656 # arcseconds per pixel
 
 files = sorted(glob('/local/tmp/ARCSAT/20141021/GJ*sdss_g*.fits'))
@@ -22,8 +24,6 @@ goodimages = np.zeros((len(goodfiles), firstimage.shape[0], firstimage.shape[1])
 for i, goodfile in enumerate(goodfiles):
     goodimages[i,:,:] = pyfits.getdata(goodfile)
 
-import pseudoguide as pg
-estimatedPSF = 1.5
 init_sourcemask = pg.gensourcemask(goodimages[0,:,:], estimatedPSF)
 
 for j, goodimage in enumerate(goodimages[1:,:,:]):

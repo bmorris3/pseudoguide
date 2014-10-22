@@ -28,7 +28,7 @@ def gauss2d(x_centroid, y_centroid, amplitude, width, dimensions):
     x, y = np.meshgrid(range(dimensions),range(dimensions))
     return amplitude*np.exp(-1*( (x-x_centroid)**2/(2*width**2) + (y-y_centroid)**2/(2*width**2) ))
 
-def createimage(x_centroids, y_centroids):
+def createimage(x_centroids, y_centroids, dimensions):
     '''
     Create a simulated image with stars at centroids given by `x_centroids` and `y_centroids`.
     
