@@ -98,9 +98,11 @@ def safetylimits(shift_0, shift_1, binning, platescale):
         return 0, 0
         
 
-def findpixelshifts(image1, image2, binning, platescale):
+def findshifts(image1, image2, binning, platescale):
     '''
-    Find the best integer roll along each axis to shift `image2` into the position of `image1`.
+    Find the best offset in units of arcseconds along each axis to shift 
+    `image2` into the position of `image1`. Also check that the shift
+    is small using safetylimits(), if too large an offset, force shift to zero.
     
     Parameters
     ----------
@@ -111,10 +113,10 @@ def findpixelshifts(image1, image2, binning, platescale):
         
     Returns
     -------
-    bestroll_0 : int
-        Best number of pixels to roll axis 0 of `image2` to overlay it on `image1`
-    bestroll_1 : int
-        Best number of pixels to roll axis 1 of `image2` to overlay it on `image1`
+    safeshift_0 : int
+        Best number of arcseconds to shift along axis 0 of `image2` to overlay it on `image1`
+    safeshift_1 : int
+        Best number of arcseconds to shift along axis 1 of `image2` to overlay it on `image1`
     '''
     dimensions = np.shape(image1)[0]
     mask1_0 = np.concatenate([np.zeros(dimensions/2.),np.sum(image1,axis=0),np.zeros(dimensions/2.)])
@@ -137,28 +139,3 @@ def findpixelshifts(image1, image2, binning, platescale):
     safeshift_0, safeshift_1 = safetylimits(bestroll_0, bestroll_1, binning, platescale)
     
     return safeshift_0, safeshift_1
-
-#dimensions = 500
-#binning = 2
-#platescale = 0.656 # arcseconds per pixel
-#xpositions = np.array([100, 300, 400, 250])
-#ypositions = np.array([100, 300, 250, 400])
-#
-#sampleimage1 = createimage(xpositions, ypositions)
-#sampleimage2 = createimage(xpositions+5, ypositions+5)
-#sampleimage3 = createimage(xpositions+10, ypositions+10)
-#
-#sourcemask1 = gensourcemask(sampleimage1, 1.5)
-#sourcemask2 = gensourcemask(sampleimage2, 1.5)
-#sourcemask3 = gensourcemask(sampleimage3, 1.5)
-#
-#print findpixelshifts(sourcemask1, sourcemask2, binning, platescale)
-#print findpixelshifts(sourcemask1, sourcemask3, binning, platescale)
-
-# Data on newton: /export/arcsat/AS03/20141021
-
-#plt.plot(mask1_0)
-#plt.plot(np.roll(mask2_0, rollrange[np.argmin(chi2)]))
-#plt.show()
-
-

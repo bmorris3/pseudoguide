@@ -45,7 +45,7 @@ while guideron:
             print 'new file detected = %s' % newimagepath
             newimage = pyfits.getdata(newimagepath)
             latest_sourcemask = pg.gensourcemask(newimage, estimatedPSF)
-            xcorr_sky, ycorr_sky = pg.findpixelshifts(init_sourcemask, latest_sourcemask, binning, platescale)
+            xcorr_sky, ycorr_sky = pg.findshifts(init_sourcemask, latest_sourcemask, binning, platescale)
             print 'X correction = %.4f arcseconds, Y correction = %.4f arcseconds\n' % (xcorr_sky, ycorr_sky)
             
             # Write out the update to the log file

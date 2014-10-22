@@ -33,7 +33,7 @@ init_sourcemask = pg.gensourcemask(goodimages[0,:,:], estimatedPSF)
 for j, goodimage in enumerate(goodimages[1:,:,:]):
     latest_sourcemask = pg.gensourcemask(goodimage, estimatedPSF)
     print 'len(mask) = %d' % (np.sum(latest_sourcemask))
-    xcorr_sky, ycorr_sky = pg.findpixelshifts(init_sourcemask, latest_sourcemask, binning, platescale)
+    xcorr_sky, ycorr_sky = pg.findshifts(init_sourcemask, latest_sourcemask, binning, platescale)
     print 'X correction = %.4f arcseconds, Y correction = %.4f arcseconds\n' % (xcorr_sky, ycorr_sky)
 
 from matplotlib import pyplot as plt
