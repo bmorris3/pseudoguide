@@ -26,21 +26,19 @@ for i, goodfile in enumerate(goodfiles):
     b = float(i+1)/len(goodfiles)
     goodimages[i,:,:] = a*pyfits.getdata(goodfile) + b*flat
 
-import paopg as p 
+import pseudoguide as pg
 estimatedPSF = 1.5
-init_sourcemask = p.gensourcemask(goodimages[0,:,:], estimatedPSF)
+init_sourcemask = pg.gensourcemask(goodimages[0,:,:], estimatedPSF)
 
 for j, goodimage in enumerate(goodimages[1:,:,:]):
-    latest_sourcemask = p.gensourcemask(goodimage, estimatedPSF)
+    latest_sourcemask = pg.gensourcemask(goodimage, estimatedPSF)
     print 'len(mask) = %d' % (np.sum(latest_sourcemask))
-    xcorr_sky, ycorr_sky = p.findpixelshifts(init_sourcemask, latest_sourcemask, binning, platescale)
-    #xcorr_sky, ycorrection_sky = np.array([xcorr_pixel, ycorrection_pixel])
+    xcorr_sky, ycorr_sky = pg.findpixelshifts(init_sourcemask, latest_sourcemask, binning, platescale)
     print 'X correction = %.4f arcseconds, Y correction = %.4f arcseconds\n' % (xcorr_sky, ycorr_sky)
 
 from matplotlib import pyplot as plt
 fig, ax = plt.subplots(1,2)
 ax[0].imshow(np.log(goodimages[0,:,:]), interpolation='nearest', origin='lower')
-#ax[1].imshow(np.log(np.sum(goodimages,axis=0)), interpolation='nearest', origin='lower')
 ax[1].imshow(np.log(goodimages[len(goodfiles)-1,:,:]), interpolation='nearest', origin='lower')
 plt.show()
 

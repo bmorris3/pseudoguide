@@ -7,9 +7,6 @@ Created on Tue Oct 21 20:47:52 2014
 
 import numpy as np
 from scipy.signal import correlate2d
-#from matplotlib import pyplot as plt
-#from hope import jit
-dimensions = 500
 
 def gauss2d(x_centroid, y_centroid, amplitude, width, dimensions):
     '''
@@ -96,7 +93,7 @@ def safetylimits(shift_0, shift_1, binning, platescale):
         shift along first axis after limits implemented
     '''
     if -60 <= shift_0*binning*platescale <= 60 and -60 <= shift_1*binning*platescale <= 60: # limit to within 1 arcminute shifts
-        return shift_0, shift_1
+        return shift_0*binning*platescale, shift_1*binning*platescale
     else:
         return 0, 0
         
@@ -141,21 +138,22 @@ def findpixelshifts(image1, image2, binning, platescale):
     
     return safeshift_0, safeshift_1
 
-binning = 2
-platescale = 0.656 # arcseconds per pixel
-xpositions = np.array([100, 300, 400, 250])
-ypositions = np.array([100, 300, 250, 400])
-
-sampleimage1 = createimage(xpositions, ypositions)
-sampleimage2 = createimage(xpositions+5, ypositions+5)
-sampleimage3 = createimage(xpositions+10, ypositions+10)
-
-sourcemask1 = gensourcemask(sampleimage1, 1.5)
-sourcemask2 = gensourcemask(sampleimage2, 1.5)
-sourcemask3 = gensourcemask(sampleimage3, 1.5)
-
-print findpixelshifts(sourcemask1, sourcemask2, binning, platescale)
-print findpixelshifts(sourcemask1, sourcemask3, binning, platescale)
+#dimensions = 500
+#binning = 2
+#platescale = 0.656 # arcseconds per pixel
+#xpositions = np.array([100, 300, 400, 250])
+#ypositions = np.array([100, 300, 250, 400])
+#
+#sampleimage1 = createimage(xpositions, ypositions)
+#sampleimage2 = createimage(xpositions+5, ypositions+5)
+#sampleimage3 = createimage(xpositions+10, ypositions+10)
+#
+#sourcemask1 = gensourcemask(sampleimage1, 1.5)
+#sourcemask2 = gensourcemask(sampleimage2, 1.5)
+#sourcemask3 = gensourcemask(sampleimage3, 1.5)
+#
+#print findpixelshifts(sourcemask1, sourcemask2, binning, platescale)
+#print findpixelshifts(sourcemask1, sourcemask3, binning, platescale)
 
 # Data on newton: /export/arcsat/AS03/20141021
 
